@@ -27,6 +27,12 @@ department_match = {1: -1, 2: -1, 3: -1, 4: -1, 5: -1}
 
 N = 5
 
+inverse_department_pref = [[0] * (N + 1) for _ in range(N)]
+for d in range(N):
+    for pref, prog in enumerate(D[d]):
+        inverse_department_pref[d][prog] = pref
+
+
 while un_matched_programmers:
     print("Current unmatched programmers: ", un_matched_programmers)
     programmer = un_matched_programmers.pop()  # Pick an unmatched programmer
@@ -48,7 +54,7 @@ while un_matched_programmers:
         else:
             # If the department is already matched, check if the department prefers this programmer
             current_programmer = department_match[dept]
-            if D[dept - 1].index(programmer) < D[dept - 1].index(current_programmer):
+            if inverse_department_pref[dept - 1][programmer] < inverse_department_pref[dept - 1][current_programmer]:
                 # Department prefers the new programmer
                 print(f"Department {dept} prefers Programmer {programmer} over Programmer {current_programmer}")
 
